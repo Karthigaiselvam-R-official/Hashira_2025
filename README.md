@@ -48,7 +48,6 @@ json
 
 Output:
 
-text
 🎯 Secret: 3
 ✅ All shares valid - No corruption detected
 
@@ -103,6 +102,7 @@ Input: 10 shares, threshold 7 (with 2 corrupted)
 
 
 Output:
+
 🎯 Secret: 1000000000000000000000000000000
 🚨 Corrupted shares detected at indices: 5, 6
 
