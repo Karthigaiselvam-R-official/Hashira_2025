@@ -1,105 +1,61 @@
-Hashira Placements Assignment - Shamir Secret Sharing
-This project implements Shamir's Secret Sharing scheme to reconstruct a secret from shares provided in JSON format. The solution handles shares in different bases, detects corrupted shares, and reconstructs the original secret using Lagrange interpolation.
+# 🔐 HASHIRA - Shamir Secret Sharing System
 
-Features
-BigInt Class: Handles arbitrary-precision arithmetic for large numbers
+*A high-performance C++ implementation of cryptographic secret sharing with corruption detection*
 
-Base Conversion: Converts numbers from any base (2-36) to decimal
+---
 
-Corruption Detection: Identifies corrupted shares using combinatorial verification
+## 🚀 Features
 
-Secret Reconstruction: Uses Lagrange interpolation to reconstruct the secret from valid shares
+### 🧮 BigInt Arithmetic Engine
+- **Arbitrary-precision mathematics** with base conversion (2-36)
+- **Optimized memory management** using base-10⁹ digit storage
+- **Full arithmetic operations** (+, -, *, %, comparisons)
 
-Requirements
-C++17 compatible compiler
+### 🎯 Shamir's Secret Sharing
+- **Polynomial generation** with random coefficients
+- **Share distribution** across multiple parties
+- **Lagrange interpolation** for secret reconstruction
+- **Modular arithmetic** in large prime fields
 
-JSONCPP library for JSON parsing
+### 🔍 Advanced Corruption Detection
+- **Combinatorial verification** of share consistency
+- **Majority voting system** to identify corrupted shares
+- **Automatic recovery** using valid shares only
 
-Installation
-Install JSONCPP:
+---
 
+## ⚡ Quick Start
+
+### Prerequisites
 bash
+# Install JSONCPP
 sudo apt-get install libjsoncpp-dev
-Compile the code:
 
-bash
-g++ -std=c++17 hashira.cpp -ljsoncpp -o hashira
-Usage
-Run the program with a JSON test case file:
+# Compile with C++17
+g++ -std=c++17 hashira.cpp -ljsoncpp -o hashira -O3
 
-bash
+Run the system:
+# Execute with test cases
 ./hashira testcase1.json
-JSON Input Format
-The JSON file should contain:
+./hashira testcase2.json
 
-n: Total number of shares
-
-k: Minimum shares needed for reconstruction
-
-Shares with keys as integers and values containing base and value
-
-Example:
+🧪 Test Results
+✅ Test Case 1 - Basic Verification
+Input: 4 shares, threshold 3
 
 json
-{
-  "keys": {
-    "n": 4,
-    "k": 3
-  },
-  "1": {
-    "base": "10",
-    "value": "4"
-  },
-  "2": {
-    "base": "2",
-    "value": "111"
-  }
-}
-Output
-The program outputs:
+{"keys":{"n":4,"k":3},"1":{"base":"10","value":"4"},"2":{"base":"2","value":"111"},"3":{"base":"10","value":"12"},"6":{"base":"4","value":"213"}}
 
-Reconstructed secret
-
-Indices of corrupted shares (0-based)
-
-Test Cases
-Test Case 1
-Input:
-
-json
-{
-  "keys": {
-    "n": 4,
-    "k": 3
-  },
-  "1": {
-    "base": "10",
-    "value": "4"
-  },
-  "2": {
-    "base": "2",
-    "value": "111"
-  },
-  "3": {
-    "base": "10",
-    "value": "12"
-  },
-  "6": {
-    "base": "4",
-    "value": "213"
-  }
-}
 Output:
 
 text
-Secret: 3
-Corrupted shares indices (0-based): 
-Test Case 2
-Input:
+🎯 Secret: 3
+✅ All shares valid - No corruption detected
 
-json
+🛡️ Test Case 2 - Corruption Detection
+Input: 10 shares, threshold 7 (with 2 corrupted)
 {
-  "keys": {
+"keys": {
     "n": 10,
     "k": 7
   },
@@ -144,36 +100,39 @@ json
     "value": "1101613130313526312514143"
   }
 }
+
+
 Output:
+🎯 Secret: 1000000000000000000000000000000
+🚨 Corrupted shares detected at indices: 5, 6
 
-text
-Secret: 1000000000000000000000000000000
-Corrupted shares indices (0-based): 5 6
-Answers
-Output for TestCase - 1: 3
+📊 Performance Metrics
 
-Output for TestCase - 2: 1000000000000000000000000000000
+Base conversion: O(n) complexity per share
 
-Wrong Data Set Points for Test Case-1: None (empty)
+Interpolation: O(k²) for k shares
 
-Wrong Data Set Points for Test Case-2: Indices 5 and 6 (0-based)
+Corruption detection: O(C(n,k)) combinations
 
-Implementation Details
-BigInt Class: Handles large integers with base conversion capabilities
+Memory efficient: 9-digit packing in vectors
 
-ShamirSecretSharing Class: Implements secret sharing operations
 
-Corruption Detection: Uses combinatorial approach to identify inconsistent shares
+🔧 Error Handling
 
-Prime Field: Operations are performed modulo a large prime number
+The system includes robust error handling for:
 
-Error Handling
-The program includes comprehensive error handling for:
+❌ Invalid JSON syntax and missing fields
 
-Invalid JSON format
+❌ Malformed number strings and invalid bases
 
-Missing required fields
+❌ Insufficient shares for reconstruction
 
-Invalid number formats
+❌ Modular inverse computation failures
 
-Insufficient shares for reconstruction
+
+
+🏆 Answers Summary
+Test Case	               Secret                  	Corrupted Shares
+#1	                       3	                          None
+#2	      1000000000000000000000000000000	          5, 6 (0-based)
+
